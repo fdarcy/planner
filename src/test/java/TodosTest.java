@@ -28,7 +28,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchCorrect() {
+    public void shouldSearchCorrect() { // Случай для 1 задачи
         Todos todos = new Todos();
 
         SimpleTask simpleTask = new SimpleTask(4, "Купить продукты");
@@ -50,7 +50,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchCorrectIfNoOneTaskMatches() {
+    public void shouldSearchCorrectIfNoOneTaskMatches() { // Случай для 0 задач
         Todos todos = new Todos();
 
         SimpleTask simpleTask = new SimpleTask(4, "Купить продукты");
@@ -67,6 +67,28 @@ public class TodosTest {
 
         Task[] expected = new Task[0];
         Task[] actual = todos.search("масло");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchCorrectForSeveralTasks() { // Случай для нескольких
+        Todos todos = new Todos();
+
+        SimpleTask simpleTask = new SimpleTask(4, "Купить зубы");
+        Meeting meeting = new Meeting(5, "Родительское собрание", "Поведение", "31 декабря");
+
+        String[] subtasks = new String[2];
+        subtasks[0] = "Сходить в магазин";
+        subtasks[1] = "Почистить зубы";
+        Epic epic = new Epic(6, subtasks);
+
+        todos.add(simpleTask);
+        todos.add(meeting);
+        todos.add(epic);
+
+        Task[] expected = {simpleTask,epic};
+        Task[] actual = todos.search("зубы");
 
         Assertions.assertArrayEquals(expected, actual);
     }
